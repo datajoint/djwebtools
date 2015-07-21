@@ -1,0 +1,120 @@
+
+table.datajoint {
+    width: 80%;
+    margin-left:auto;
+    margin-right:auto;
+
+    border: 0px solid black;
+    border-collapse: collapse;
+  /*  box-shadow: 10px 10px 5px #888;*/
+}
+
+.datajoint th{
+    spacing: 10px;
+    padding: 5px;
+    background-color: slategray;
+    color: skyblue;
+    text-align: left;
+    border-left: 0px solid #000;
+    border-right: 0px solid #000;
+    border-bottom: 0px solid #000;
+    border-top: 0px solid #000;
+}
+
+
+.datajoint tbody tr:nth-child(odd) td{
+    background: silver;
+}
+
+.datajoint tbody tr td{
+    spacing: 10px;
+    padding: 10px;
+
+}
+
+tfoot.datajoint tr td {
+    spacing: 10px;
+    padding: 10px;
+    color: skyblue;
+    background-color: slategray;
+}
+
+
+/*--------------------------------------*/
+
+.reltable {
+    border-collapse: collapse;
+    border: 0px solid black;
+    box-shadow: 10px 10px 5px #888;
+    width: 90%;
+}
+
+.reltable a {
+    text-decoration: none;
+}
+
+.reltable td {
+    spacing: 10px;
+    padding: 5px;
+
+}
+
+
+.reltable tbody td{
+    text-align: left;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+}
+
+.reltable thead th{
+    background: slategray;
+    text-align: left;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
+    spacing: 10px;
+    padding: 5px;
+}
+
+.reltable thead th a{
+    color: lime;
+    align: center;
+    text-decoration: none;
+}
+
+
+.reltable tbody tr:nth-child(odd) td{
+    background: silver;
+}
+
+.reltable tfoot td{
+    background-color: slategray;
+    color: skyblue;
+    text-align: center;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
+}
+
+.reltable tfoot td a{
+    color: skyblue;
+}
+
+
+/*--------------------------------------*/
+
+.formtable {
+    border-collapse: collapse;
+    border: 0px solid black;
+    width=90%;
+
+}
+
+.formtable td {
+    spacing: 10px;
+    padding: 5px;
+
+}
+

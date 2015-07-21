@@ -1,0 +1,124 @@
+{% macro render_thead(reltab) %}
+<thead>
+<tr>
+
+    {% for key in reltab.attributes %}
+    <th>
+        <a href="{{ reltab.get_url('djpage.display', sortby=[key], descending=reltab.reverse_sorting([key])) }}">
+            {{ key }}
+        </a>
+    </th>
+    {% endfor %}
+    {% if edit_enabled %}
+    <th>
+        edit
+    </th>
+
+    {% endif %}
+</tr>
+</thead>
+
+
+{% endmacro %}
+
+<!--===================================================================================-->
+
+{% macro render_tbody(reltab) %}
+
+<tbody>
+
+{% for row in reltab.current_rows() %}
+
+<tr>
+    {% for key, value in row.items() %}
+    <td>
+        <a href="{{ reltab.get_url('djpage.display', additional_restrictions=[key + '=' + '\'%s\'' % (value,)]) }}">
+            {{ value }}
+        </a>
+    </td>
+    {% endfor %}
+    {% if edit_enabled %}
+    <td>
+        <a href="{{ get_edit_url(row, reltab.relname) }}">edit</a>
+    </td>
+
+    {% endif %}
+</tr>
+{% endfor %}
+</tbody>
+{% endmacro %}
+
+
+<!--===================================================================================-->
+
+
+{% macro render_pagination(reltab) %}
+<tfoot class="reltable">
+<tr>
+    <td colspan="0">
+        {% for page in reltab.iter_pages() %}
+        {% if page %}
+        {% if page != reltab.page %}
+        <a href="{{ reltab.get_url('djpage.display', page=page) }}">{{ page }}</a>
+        {% else %}
+        <strong>{{ page }}</strong>
+        {% endif %}
+        {% else %}
+        <span>…</span>
+        {% endif %}
+        {% endfor %}
+        {% if reltab.has_next %}
+        <a href="{{ reltab.get_url('djpage.display', page=reltab.page+1) }}">Next &raquo;</a>
+        {% endif %}
+    </td>
+</tr>
+</tfoot>
+
+{% endmacro %}
+
+<!--===================================================================================-->
+{% macro restriction_form(form, reltab) %}
+    <div>
+    <table class=formtable>
+        <tr>
+            <form method=post action="{{ reltab.get_url('djpage.display') }}">
+                <td width="50%">Restriction {{ form.restriction(size=100)|safe }}</td>
+                <td><input type=submit value="apply restriction" name="submit"></td>
+            </form>
+        </tr>
+        </table>
+        <br><p></p>
+    </div>
+{% endmacro %}
+
+<!--===================================================================================-->
+
+{% extends "datajoint_base.html" %}
+
+{% block body %}
+
+<h2>Enter additional restrictions</h2>
+
+{{ restriction_form(form, reltab) }}
+
+{% if reltab.is_restricted %}
+    <h2>Currently applied filters</h2>
+    Click to remove them.
+    <ul>
+        {% for restr, url in reltab.remove_constraint_iter %}
+            <li><a href="{{ url }}">{{ restr }}</a></li>
+        {% endfor %}
+
+    </ul>
+{% endif %}
+
+<table class="reltable">
+
+    {{ render_thead(reltab) }}
+    {{ render_tbody(reltab) }}
+    {{ render_pagination(reltab) }}
+
+</table>
+
+
+{% endblock %}

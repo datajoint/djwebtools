@@ -1,0 +1,55 @@
+{% macro render_field(field, required) %}
+<tr>
+    {% if field.id == 'REFERRER'%}
+        {{ field(**kwargs)|safe }}
+    {% else %}
+        {% if required %}
+            <td><b>{{ field.id }}</b></td>
+        {% else %}
+            <td>{{ field.id }}</td>
+        {% endif %}
+        <td>{{ field(**kwargs)|safe }}</td>
+        <td>{{ field.label }}</td>
+        <td>
+            {% if field.errors %}
+            <ul class=errors>
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </td>
+    {% endif %}
+</tr>
+{% endmacro %}
+
+
+{% extends "datajoint_base.html" %}
+
+{% block body %}
+    <form class="datajoint" method=post action="{{ target }}">
+        <table class="datajoint">
+            <thead>
+            <tr>
+                <th class="datajoint">Attribute</th>
+                <th class="datajoint">Data</th>
+                <th class="datajoint"> Comment</th>
+                <th class="datajoint">Error</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for fieldname, field in form._fields.items() %}
+            {{ render_field(field, form.required[fieldname]) }}
+            {% endfor %}
+            </tbody>
+            <tfoot class="datajoint">
+            <tr>
+                <td colspan="2" align="center"><input type=submit value=Submit name="submit"></td>
+                <td colspan="2" align="center"><input type=submit value=Cancel name="submit"></td>
+            </tr>
+            </tfoot>
+        </table>
+        <p>
+
+    </form>
+{% endblock %}
