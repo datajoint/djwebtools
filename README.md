@@ -44,3 +44,76 @@ class Subject(dj.Manual):
         self.insert(self.contents, ignore_errors=True)
 
 ```
+
+The next step is to create a [Flask](http://flask.pocoo.org/) application with the following directory structure.
+
+```
+├── dj_local_conf.json
+├── myserver.py
+├── static
+│   └── style.css
+└── templates
+    └── base.html
+
+```
+
+
+
+The file `base.html` could look like this
+
+```html
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Subject Administration System</title>
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    {% block datajointhead%} {% endblock %}
+</head>
+<body>
+
+<div class="main">
+    {% block body%}
+
+    {% endblock %}
+</div>
+</body>
+</html>
+```
+
+Notice the `datajointhead` in the heading. `djwebtools` will place the custom `.css` file there. If you don't want that,
+remove it. The file has to be named `base.html` since, the templates in `djwebtools` will extend it.
+
+The file `myserver.py` could look like this
+
+```python
+from flask import Flask
+import djwebtools as djw
+
+app = Flask(__name__)
+app.secret_key = # place a flask secret key here
+app.register_blueprint(djw.djpage, url_prefix='/dj')
+
+
+
+import atlab_commons
+from myschema import Subject
+
+djw.register(subject=Subject(), for_form=True)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+```
+
+This file registeres the flask blueprint from `djwebtools` with your flask application. If you run it via:
+
+```python3 myserver.py```
+
+`djwebtools` will provide the following URLs
+
+- http://127.0.0.1:5000/dj/display/subject
+- http://127.0.0.1:5000/dj/enter/subject
+
+It also provides a URL for editing, but that is better accessed from the display URL, since it needs a few GET parameters
+to fetch the correct entry from the database.
