@@ -57,7 +57,7 @@ The next step is to create a [Flask](http://flask.pocoo.org/) application with t
 
 ```
 
-
+The file `dj_local_conf.json` contains your database information. See the documentation of [datajoint](http://datajoint.github.io/).
 
 The file `base.html` could look like this
 
