@@ -86,7 +86,10 @@ class DataJointFormFactory:
                     dat = {}
                     for k, v in self2._fields.items():
                         if v.data is not None and k != 'REFERRER': # was not specified and is also not required
-                            dat[k] = v.data
+                            if isinstance(v.data, datetime.datetime) or isinstance(v.data, datetime.date):
+                                dat[k] = str(v.data)
+                            else:
+                                dat[k] = v.data
                     rel.insert1(dat, replace=replace)
 
 
