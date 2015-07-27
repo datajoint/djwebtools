@@ -39,10 +39,13 @@ class RelationTable:
     def current_rows(self, page=None):
         if page is None:
             page = self.page
-
+        if self.sortby is not None:
+            if self.descending is not None:
+                order_by = [self.sortby[0] + (' ASC' if self.descending == 0 else ' DESC')]
+        else:
+            order_by = None
         return self.current_rel.fetch(as_dict=True,
-                              order_by=self.sortby,
-                              descending=bool(self.descending),
+                              order_by=order_by,
                               offset=(page-1)*self.per_page,
                               limit=self.per_page
                               )
