@@ -26,14 +26,13 @@ class Restriction(wtf.Form):
 
 
 def field_factory(attr):
-
         kwargs = defaultdict(list)
         kwargs['id'] = attr.name
         kwargs['label'] = attr.comment
         if attr.in_key: kwargs['validators'].append(required())
         if attr.nullable or attr.default is not None:
             kwargs['validators'].append(optional())
-        if attr.type == 'int':
+        if attr.type.startswith('int'):
             return wtf.IntegerField(**kwargs)
         elif attr.type == 'double' or attr.type == 'float':
             return wtf.FloatField(**kwargs)
@@ -70,7 +69,7 @@ class DataJointFormFactory:
 
             if isinstance(rel, dj.Computed) or \
                     isinstance(rel, dj.Imported) or \
-                    isinstance(rel, dj.Subordinate):
+                    isinstance(rel, dj.Part):
                 raise dj.DataJointError("Data should not be entered directly in Computed, Imported, or Subordinate tables.")
 
             class ReturnValue(wtf.Form):

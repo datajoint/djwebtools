@@ -23,7 +23,7 @@ from .edit import enter
 
 def register(for_form=False, **kwargs):
     for name, rel in kwargs.items():
-        assert isinstance(rel, dj.Relation), "rel must be a subclass of dj.Relation"
+        assert isinstance(rel, dj.BaseRelation), "rel must be a subclass of dj.Relation"
         _registered_relations[name] = rel
 
     if for_form:
